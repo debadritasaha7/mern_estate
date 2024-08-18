@@ -17,7 +17,7 @@ const Profile = () => {
   const [showListingsError,setShowListingsError]=useState(false);
   const [userListings,setUserListings]=useState([]);
 
-  const dispatch=useDispatch();
+  const dispatch= useDispatch();
   // console.log(formData.avatar)
   // console.log(filePerc);
   // console.log(fileUploadError);
@@ -40,11 +40,11 @@ const Profile = () => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setFilePerc(Math.round(progress));
-        // setFilePerc(Math.round(progress));
+       
       },
       (error) => {
         setFileUploadError(true);
-        //setFileUploadError(true);
+       
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
