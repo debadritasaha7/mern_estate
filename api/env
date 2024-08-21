@@ -1,0 +1,2 @@
+MONGO="mongodb+srv://debadritasaha7:itsmeandkuttu1107@mern-estate.08ek6nx.mongodb.net/mern-estate?retryWrites=true&w=majority&appName=mern-estate"
+JWT_SECRET='fdasadkgsuigrrgl';
