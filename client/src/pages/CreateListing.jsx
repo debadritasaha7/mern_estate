@@ -165,7 +165,7 @@ export default function CreateListing() {
             <input type='text' placeholder='Address'className='border p-3 rounded-lg' id='address'  required  onChange={handleChange} value={formData.address}/>
        <div className='flex gap-6 flex-wrap'>
        <div className='flex gap-2'>
-       <input type='checkbox' id='sell' className='w-5'  onChange={handleChange} checked={formData.type==="sale"}/>
+       <input type='checkbox' id='sale' className='w-5'  onChange={handleChange} checked={formData.type==='sale'}/>
        <span>Sell</span>
        </div>
        <div className='flex gap-2'>
