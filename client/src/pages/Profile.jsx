@@ -2,11 +2,18 @@ import { useSelector } from "react-redux"
 import { useRef, useState,useEffect } from "react"
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage';
 import { app } from '../firebase';
-import { updateUserStart,updateUserSuccess,updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart } from "../redux/user/userSlice";
+import { 
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  signOutUserStart } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Profile = () => {
+export default function Profile(){
   const fileRef=useRef(null);
   const {currentUser,loading,error}=useSelector((state)=>state.user)
   const [file,setFile]=useState(undefined)
@@ -18,6 +25,7 @@ const Profile = () => {
   const [userListings,setUserListings]=useState([]);
 
   const dispatch= useDispatch();
+  const navigate=useNavigate();
   // console.log(formData.avatar)
   // console.log(filePerc);
   // console.log(fileUploadError);
@@ -48,10 +56,8 @@ const Profile = () => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
-          {setFormData({ ...formData, avatar: downloadURL });
-          currentUser.avatar=downloadURL}
-
-        );
+          setFormData({ ...formData, avatar: downloadURL })
+      );
       }
     );
   }
@@ -101,7 +107,9 @@ const Profile = () => {
         dispatch(deleteUserFailure(data.message));
         return;
       }
-      dispatch(deleteUserSuccess(data)); }
+      dispatch(deleteUserSuccess(data));
+      navigate('/');
+     }
       catch(error)
       {
         dispatch(deleteUserFailure(error.message));
@@ -119,6 +127,7 @@ const handleSignOut=async()=>{
       return;
     }
     dispatch(deleteUserSuccess(data));
+    navigate('/')
   } catch (error) {
     dispatch(deleteUserFailure(data.message));
   }
@@ -167,7 +176,7 @@ const handleListingDelete=async (listingId)=>{
      <h1 className='text-3xl font-semibold text-center mt-7'>Profile</h1>
      <form onSubmit={handleSubmit}  className='flex flex-col gap-4'>
      <input  onChange={(e) => setFile(e.target.files[0])} type="file" ref={fileRef} hidden accept="image/*"/>
-      <img onClick={()=>fileRef.current.click()} src={formData.avatar || currentUser.avatar} alt='profile'
+      <img onClick={()=>fileRef.current.click()} src={formData.avatar || currentUser.avatar } 
       className=' bg-slate-700 rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2'/>
     <input type="text" placeholder="username" defaultValue={currentUser.username} id='username' className="border p-3 rounded-lg" onChange={handleChange} />
      
@@ -228,4 +237,3 @@ const handleListingDelete=async (listingId)=>{
   )
 }
 
-export default Profile
